@@ -80,9 +80,9 @@ public class Armazem {
      */
     public boolean reporRecurso(int valorReposto)
     {
-        if(this.getQuantidadeMax() > (this.getQuantidade() + valorReposto))
+        if(this.getQuantidadeMax() > valorReposto)
         {
-            this.setQuantidade(this.getQuantidade() + valorReposto);
+            this.setQuantidade(valorReposto);
             return true;
         }
         
