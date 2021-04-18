@@ -6,6 +6,7 @@
 package armazem;
 import core.Armazem;
 import core.Ingrediente;
+import core.Mensagens;
 
 
 /**
@@ -24,4 +25,22 @@ public class ArmazemIngrediente extends Armazem{
     {
         return this.ingrediente;
     }
+    
+    @Override
+    public void avisarLimiteMin()
+    {
+        Mensagens.mandaEmailTecnico("Baixa Quantidade do Ingrediente: " + ingrediente.getNome());
+    }
+    
+    @Override
+    public void avisarLimiteMax() 
+    {
+        Mensagens.mandaEmailTecnico("Quantidade excedeu ao Máximo do Ingrediente: " + ingrediente.getNome());
+    }
+    
+    @Override
+    public void avisarVazio()
+    {
+        Mensagens.mandaEmailTecnico("Acabou o Ingrediente: " + ingrediente.getNome());
+    }    
 }

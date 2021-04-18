@@ -6,7 +6,7 @@
 package armazem;
 import core.Armazem;
 import core.Copo;
-
+import core.Mensagens;
 
 /**
  *
@@ -25,4 +25,23 @@ public class ArmazemCopo extends Armazem {
     {
         return this.copo;
     }
+    
+    @Override
+    public void avisarLimiteMin()
+    {
+        Mensagens.mandaEmailTecnico("Baixa Quantidade do Copo " + copo.getNome());
+    }
+    
+    @Override
+    public void avisarLimiteMax() 
+    {
+        Mensagens.mandaEmailTecnico("Quantidade excedeu ao Máximo de Copo " + copo.getNome());
+    }
+    
+    @Override
+    public void avisarVazio()
+    {
+        Mensagens.mandaEmailTecnico("Acabou!" + copo.getNome());
+    }
+
 }

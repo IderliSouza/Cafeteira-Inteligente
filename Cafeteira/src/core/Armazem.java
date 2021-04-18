@@ -9,7 +9,7 @@ package core;
  *
  * @author micre
  */
-public class Armazem {
+public abstract class Armazem {
     private int quantidade;                                                     
     private int quantidadeMax;
     private int quantidadeMin;
@@ -89,20 +89,11 @@ public class Armazem {
         return false;
     }
     
-    private void avisarLimiteMin()
-    {
-        
-    }
+    public abstract void avisarLimiteMin();
     
-    private void avisarLimiteMax() 
-    {
-        
-    }
+    public abstract void avisarLimiteMax();
     
-    private void avisarVazio()
-    {
-        
-    }
+    public abstract void avisarVazio();
 
     /**
      * Método responsável para VERIFICAR a quantidade disponível

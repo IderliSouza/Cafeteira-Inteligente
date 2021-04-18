@@ -22,8 +22,32 @@ public class TesteLeitura {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-         Copo copo = new Copo("P", 200);
-         ArmazemCopo objArmazemCopo = new ArmazemCopo(copo, 100, 500, 20);
+         ArmazemCopo objArmazemCopo = new ArmazemCopo(new Copo("P", 150), 100, 500, 20);
+         System.out.println("Quantidade de Copos Atual: " + objArmazemCopo.getQuantidade());
+         System.out.println("RETIRANDO 30: ");
+         if(objArmazemCopo.retirarRecurso(30))
+             System.out.println("Quantidade de Copos Atual: " + objArmazemCopo.getQuantidade());
+         else
+             System.out.println("NÃO HÁ COPOS SUFICIENTES: " + objArmazemCopo.getQuantidade());
+
+         System.out.println("RETIRANDO +30: ");
+         if(objArmazemCopo.retirarRecurso(30))
+             System.out.println("Quantidade de Copos Atual: " + objArmazemCopo.getQuantidade());
+         else
+             System.out.println("NÃO HÁ COPOS SUFICIENTES: " + objArmazemCopo.getQuantidade());
+
+         System.out.println("RETIRANDO +30: ");
+         if(objArmazemCopo.retirarRecurso(30))
+             System.out.println("Quantidade de Copos Atual: " + objArmazemCopo.getQuantidade());
+         else
+             System.out.println("NÃO HÁ COPOS SUFICIENTES: " + objArmazemCopo.getQuantidade());
+         
+         System.out.println("RETIRANDO +30: ");
+         if(objArmazemCopo.retirarRecurso(30))
+             System.out.println("Quantidade de Copos Atual: " + objArmazemCopo.getQuantidade());
+         else
+             System.out.println("NÃO HÁ COPOS SUFICIENTES: " + objArmazemCopo.getQuantidade());
+         
     }
     
 }
