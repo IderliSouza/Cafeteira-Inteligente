@@ -59,12 +59,12 @@ public abstract class Armazem {
             this.setQuantidade(this.getQuantidade() - valorRetirado);          // Retirar a Quantidade
             retirado = true;                                                    // Atualiza a FLAG confirmando a transação
         }
-        
+        /*
         if(this.getQuantidade() == 0)                                           // Recurso esta ZERADO ?
                 avisarVazio();                                                  // Avisar a falta TOTAL do recurso
         else if(this.getQuantidade() <= this.getQuantidadeMin())                // Recurso esta no LIMITE MÍNIMO ?
                 avisarLimiteMin();                                              // Avisa a baixa quantidade do recurso
-
+        */
         return retirado;                                                        // Retorna a FLAG 
     }
     
@@ -82,6 +82,11 @@ public abstract class Armazem {
         }
         
         return false;
+    }
+    
+    public void reporUnidade()
+    {
+        this.quantidade = this.getQuantidade()+1;
     }
     
     public abstract void avisarLimiteMin();

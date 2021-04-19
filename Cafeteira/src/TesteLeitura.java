@@ -15,7 +15,10 @@ public class TesteLeitura {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        Simulador simulador = new Simulador("teste.txt");
-        simulador.parserArquivo();
+        Maquina cafeteira = new Maquina("teste.txt");
+        for(int i = 0; i <= 5; i++)
+            cafeteira.prepararBebida("Cappuccino (G)", 10);
+
+        cafeteira.prepararBebida("Cappuccino (G)", 0);
     }
 }

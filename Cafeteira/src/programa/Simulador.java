@@ -98,11 +98,6 @@ public class Simulador {
                 }
             }
         }
-        
-        objCofre.mostrarDados();
-        objDispensa.mostrarDadosCopos();
-        objDispensa.mostrarDadosIngrediente();
-        objLivroReceitas.mostrarDados();
     }
     
     public void geraGavetaMoeda(String[] arrayValores, int contadorLinha, String linha)
@@ -185,7 +180,6 @@ public class Simulador {
                 setErro("INGREDIENTE da receita não existe na dispensa " + contadorLinha + " >> " + linha);
             
             objReceita.addIngredienteNaReceita(objIngrediente.getIngrediente(), quantidade);
-            // não to conseguindo adicionar ingredientes na receita desta forma!
         }
         objLivroReceitas.addReceitaNoLivroReceita(objReceita);
     }

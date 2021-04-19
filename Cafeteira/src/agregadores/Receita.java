@@ -57,7 +57,7 @@ public class Receita {
         this.tipo = tipo;
     }
     
-    private void setStatus(boolean status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

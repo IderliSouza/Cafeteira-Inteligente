@@ -1,7 +1,8 @@
 package programa;
 import agregadores.Barista;
 import agregadores.Contador;
-import armazem.ArmazemIngrediente;
+import agregadores.Receita;
+import core.Mensagens;
 import core.Moeda;
 import java.io.FileNotFoundException;
 
@@ -18,7 +19,23 @@ public class Maquina extends Simulador {
     {
         super(text);
         parserArquivo();
-        System.out.println("Copos P: " + objDispensa.procurarDispensaCopo("P").getQuantidade());
+        
+        objDispensa.mostrarDadosCopos();
+        objDispensa.mostrarDadosIngrediente();
+
+        barista = new Barista(objLivroReceitas, objDispensa);
+
+    }
+    
+    public void prepararBebida(String bebida, int quantidadeAcucar)
+    {
+        Receita objReceita = objLivroReceitas.procuraReceitaLivro(bebida);
+        
+        if(!barista.prepararBebida(objReceita, quantidadeAcucar))
+            Mensagens.mensagemTela("# ERRO NO PREPARO #");
+
+        objDispensa.mostrarDadosCopos();
+        objDispensa.mostrarDadosIngrediente();
     }
     
 }
