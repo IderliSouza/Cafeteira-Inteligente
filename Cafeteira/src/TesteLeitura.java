@@ -1,7 +1,4 @@
-import armazem.ArmazemCopo;
-import core.Copo;
 import java.io.FileNotFoundException;
-import programa.Simulador;
 import programa.Maquina;
 
 /**
@@ -16,9 +13,11 @@ public class TesteLeitura {
      */
     public static void main(String[] args) throws FileNotFoundException {
         Maquina cafeteira = new Maquina("teste.txt");
-        for(int i = 0; i <= 5; i++)
+
+        System.out.println(cafeteira.barista.mostrarReceitas());
+        for(int i = 0; i <= 15; i++)
             cafeteira.prepararBebida("Cappuccino (G)", 10);
 
-        cafeteira.prepararBebida("Cappuccino (G)", 0);
+        System.out.println(cafeteira.barista.mostrarReceitasValidas());
     }
 }

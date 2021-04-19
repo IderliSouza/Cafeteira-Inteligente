@@ -4,6 +4,7 @@ import armazem.ArmazemCopo;
 import armazem.ArmazemIngrediente;
 import core.Copo;
 import core.Mensagens;
+import java.util.ArrayList;
 
 /**
  *
@@ -201,4 +202,25 @@ public class Barista {
         
         return setStatus(-1);                                                    // Voltando a Ficar Ocioso
     }
+    
+   public ArrayList<String> mostrarReceitas()
+   {
+        ArrayList<String> nomeReceitas = new ArrayList<>();
+        for(int i = 0; i < this.menuBarista.livroReceitas.size(); i++)
+            nomeReceitas.add(menuBarista.livroReceitas.get(i).getReceita().getDescricao());
+
+        return nomeReceitas;
+   }
+   
+   public ArrayList<String> mostrarReceitasValidas()
+   {
+        ArrayList<String> nomeReceitas = new ArrayList<>();
+        for(int i = 0; i < this.menuBarista.livroReceitas.size(); i++)
+        {
+            if(menuBarista.livroReceitas.get(i).getReceita().getStatus() == true)
+                nomeReceitas.add(menuBarista.livroReceitas.get(i).getReceita().getDescricao());
+        }
+
+        return nomeReceitas;
+   }
 }

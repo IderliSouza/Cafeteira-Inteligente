@@ -34,6 +34,7 @@ public class Maquina extends Simulador {
         if(!barista.prepararBebida(objReceita, quantidadeAcucar))
             Mensagens.mensagemTela("# ERRO NO PREPARO #");
 
+        // APENAS PARA DEBUG
         objDispensa.mostrarDadosCopos();
         objDispensa.mostrarDadosIngrediente();
     }

@@ -6,7 +6,7 @@ cinquenta;50;30;100;15
 um;100;30;100;15
 #FIM MOEDA
 #INI INGREDIENTE
-água;ml;30000;30000;2000
+água;ml;2000;30000;2000
 cafe;gramas;3000;3000;200
 leite em pó;gramas;15000;15000;1000
 canela;gramas;600;600;40
