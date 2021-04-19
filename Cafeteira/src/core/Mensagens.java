@@ -4,6 +4,7 @@ package core;
  * @version 1.0
  * @since 
  */
+
 public final class Mensagens {
 
     private Mensagens() {

@@ -77,7 +77,7 @@ public class Contador {
     
     public boolean verificarValor(Receita receita, int valor)
     {
-        if(receita.getValor() < valor)                                          // Verificar se o valor depositado paga a bebida
+        if(receita.getValor() > valor)                                          // Verificar se o valor depositado paga a bebida
         {
             this.setStatus(3);                                                  // Contador Sinaliza que o Saldo é Insuficiente
             return false;                                                       // Retorna que NÃO VAI ROLAR!

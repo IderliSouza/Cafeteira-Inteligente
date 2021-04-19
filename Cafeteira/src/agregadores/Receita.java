@@ -27,6 +27,10 @@ public class Receita {
     public String getDescricao() {
         return descricao;
     }
+    
+    public Receita getReceita() {
+        return this;
+    }
 
     public int getValor() {
         return valor;
@@ -36,7 +40,7 @@ public class Receita {
         return tipo;
     }
     
-    public boolean status() {
+    public boolean getStatus() {
         return status;
     }
 
@@ -75,5 +79,15 @@ public class Receita {
     
     public ArrayList<IngredienteReceita> getIngredientes() {
         return ingredientesReceita;
+    }
+    
+    public IngredienteReceita buscarIngredienteNaReceita(String nome)
+    {
+        for(int i = 0; i < ingredientesReceita.size(); i++)
+        {
+            if(ingredientesReceita.get(i).ingrediente.getNome().equals(nome))
+                return ingredientesReceita.get(i);
+        }
+        return null;
     }
 }

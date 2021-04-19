@@ -18,11 +18,33 @@ public class Cofre {
     
     public Cofre()
     {
-        
+        moedasInternas = new ArrayList<ArmazemMoeda>();
     }
     
-    public void addGavetaMoeda(Moeda moeda, int quantidade, int quantidadeMin, int quantidadeMax)
+    public void addGavetaMoeda(Moeda moeda, int quantidade, int quantidadeMax, int quantidadeMin)
     {
-        moedasInternas.add(moeda.getValor(), new ArmazemMoeda(moeda, quantidade, quantidadeMin, quantidadeMax));
+        moedasInternas.add(new ArmazemMoeda(moeda, quantidade, quantidadeMax, quantidadeMin));
+    }
+    
+    public void mostrarDados()
+    {
+        for(int i = 0; i < moedasInternas.size(); i++)
+        {
+            System.out.println("Moeda : " + moedasInternas.get(i).getMoeda().getNome() +
+                               " | Valor : " + moedasInternas.get(i).getMoeda().getValor() +
+                               " | Quantidade Atual: " + moedasInternas.get(i).getQuantidade() +
+                               " | Quantidade Máxima: " + moedasInternas.get(i).getQuantidadeMax() +
+                               " | Quantidade Mínima: " + moedasInternas.get(i).getQuantidadeMin());
+        }
+    }
+    
+    public ArmazemMoeda procurarGavetaMoeda(int valor)
+    {
+        for(int i = 0; i < moedasInternas.size(); i++)
+        {
+            if(moedasInternas.get(i).getMoeda().getValor() == valor)
+                return moedasInternas.get(i);
+        }
+        return null;
     }
 }
