@@ -1,7 +1,9 @@
 
+import core.Armazem;
 import core.Tecnico;
 import java.awt.List;
 import java.util.ArrayList;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,11 +17,19 @@ import java.util.ArrayList;
  */
 public class Login extends javax.swing.JFrame {
     ArrayList<Tecnico> tecnicos;
-
+    Tecnico tecnico;
+    Armazem copos;
+    Armazem moedas;
+    Armazem ingredientes;
+    
     /**
      * Creates new form login
      */
-    public Login(ArrayList Tecnicos) {
+    public Login(ArrayList Tecnicos, Armazem copo, Armazem moeda, Armazem ingrediente) {
+        
+        this.copos = copo;
+        this.moedas = moeda;
+        this.ingredientes = ingrediente;
         this.tecnicos = Tecnicos;
         initComponents();
     }
@@ -73,21 +83,21 @@ public class Login extends javax.swing.JFrame {
                         .addGap(154, 154, 154)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(167, 167, 167)
-                        .addComponent(jButton1)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
+                .addContainerGap(110, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addGap(144, 144, 144))
         );
@@ -95,33 +105,34 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        for(int i=0;i<tecnicos.size();i++){
-            Tecnico tecnico = tecnicos.get(i);
-            int valor = Integer.parseInt(senha.getText());
-            if(tecnico.checkTecnico(valor)){
-                jLabel1.setText("usuario cadastrado");
-                break;
-            }
-            jLabel1.setText("usuario nao cadastrado");
-        }
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void senhaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_senhaKeyTyped
         String caracteres = "0987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
-            // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_senhaKeyTyped
 
     private void senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_senhaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        for(int i=0;i<tecnicos.size();i++){
+            Tecnico tecnico = tecnicos.get(i);
+            int valor = Integer.parseInt(senha.getText());
+            if(tecnico.checkTecnico(valor)){
+                this.tecnico = tecnicos.get(i);
+                OperacaoMaquina operacao = new OperacaoMaquina(copos, moedas, ingredientes);
+                operacao.setVisible(true);
+                this.setVisible(false);
+                break;
+            }
+            showMessageDialog(null, "Tecnico nao cadastrado");
+            break;
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,7 +169,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-
+    
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

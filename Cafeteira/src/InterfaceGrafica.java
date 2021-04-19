@@ -1,8 +1,17 @@
 
+import armazem.ArmazemCopo;
+import armazem.ArmazemIngrediente;
+import armazem.ArmazemMoeda;
+import core.Armazem;
+import core.Copo;
+import core.Ingrediente;
+import core.Mensagens;
+import core.Moeda;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import core.Tecnico;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
@@ -19,6 +28,10 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class InterfaceGrafica extends javax.swing.JFrame {
     ArrayList<Tecnico> tecnicos = new ArrayList();
     ArrayList<Object> bebidas = new ArrayList();
+    public Armazem objArmazemCopo;
+    public Armazem objArmazemin;
+    public Armazem objArmazemMoeda;
+    Mensagens mensagens = new Mensagens();
     
     /**
      * Creates new form interfaceGrafica
@@ -27,6 +40,7 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         initComponents();
         criarTecnicos();
         preencherPainel();
+        abrirRecursos();
     }
 
     /**
@@ -45,12 +59,12 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         copovazio = new javax.swing.JLabel();
         loginTecnico = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
         jpanel = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         moedaCampo = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        painelUsuario2 = new javax.swing.JTextArea();
+        jTextField1 = new javax.swing.JTextField();
+        label1 = new java.awt.Label();
+        label2 = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,23 +88,15 @@ public class InterfaceGrafica extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("Retirar");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+            .addGap(0, 195, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106))
+            .addGap(0, 168, Short.MAX_VALUE)
         );
 
         jButton5.setText("Inserir Moeda");
@@ -135,9 +141,11 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                 .addGap(0, 30, Short.MAX_VALUE))
         );
 
-        painelUsuario2.setColumns(20);
-        painelUsuario2.setRows(5);
-        jScrollPane2.setViewportView(painelUsuario2);
+        jTextField1.setText("Retirar");
+
+        label1.setText("label1");
+
+        label2.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -151,113 +159,129 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(280, 280, 280)
-                        .addComponent(copovazio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addComponent(loginTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(152, 152, 152))
+                        .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(280, 280, 280)
+                                .addComponent(copovazio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(344, 344, 344)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(loginTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(197, 197, 197))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(loginTecnico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(loginTecnico)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(162, 162, 162)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144)))
+                        .addComponent(copovazio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(15, 15, 15))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(7, 7, 7)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(172, 172, 172)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(38, 38, 38)
-                        .addComponent(copovazio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(15, 15, 15))))
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
         
-        
-        painelUsuario2.setText("Cafe expresso" + "\n" +
-                " P - R$ "+ "0.75"+ "\n" +
-                " M - R$ "+ "2.00" + "\n" +
-                " G - R$ "+ "5.35" + "\n" + "\n" + "\n" +
-                "Nivel de açucar" + "\n" +
-                "S - 0gr" + "\n" +
-                "P - 5gr" + "\n" +
-                "M - 8gr" + "\n" +
-                "G - 12gr");
+        label1.setText("Cafe expresso" + "\n"
+                + " P - R$ " + "0.75" + "\n\n"
+                + " M - R$ " + "2.00" + "\n\n"
+                + " G - R$ " + "5.35" + "\n" + "\n" + "\n \n \n"
+                + "Nivel de açucar" + "\n \n"
+                + "S - 0gr" + "\n"
+                + "P - 5gr" + "\n"
+                + "M - 8gr" + "\n"
+                + "G - 12gr");
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void loginTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginTecnicoActionPerformed
         
-        Login login = new Login(tecnicos);
+        Login login = new Login(tecnicos, this.objArmazemCopo, this.objArmazemMoeda, this.objArmazemin);
         
         login.setVisible(true);
+        
+        this.setVisible(false);
         
         // TODO add your handling code here:
     }//GEN-LAST:event_loginTecnicoActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
        if(moedaCampo.getText().isEmpty()){
-           showMessageDialog(null, "Nenhuma moeda inserida");
+           this.mensagens.mensagemTela("Nenhuma moeda inserida");
        }else{
         
         int moeda = Integer.parseInt(moedaCampo.getText());
        switch (moeda){
            case 5:
-               showMessageDialog(null, "Moeda inserida");
+               this.mensagens.mensagemTela("Moeda inserida");
                break;
            case 10:
-               showMessageDialog(null, "Moeda inserida");
+               this.mensagens.mensagemTela("Moeda inserida");
                break;
            case 25:
-               showMessageDialog(null, "Moeda inserida");
+               this.mensagens.mensagemTela("Moeda inserida");
                break;
            case 50:
-               showMessageDialog(null, "Moeda inserida");
+               this.mensagens.mensagemTela("Moeda inserida");
                break;
            case 100:
-               showMessageDialog(null, "Moeda inserida");
+               this.mensagens.mensagemTela("Moeda inserida");
                break;
            case 0:
-               showMessageDialog(null, "Nenhuma moeda inserida");
+               this.mensagens.mensagemTela("Nenhuma moeda inserida");
                break;
            default:
-               showMessageDialog(null, "Insira uma moeda valida");
+               this.mensagens.mensagemTela("Insira uma moeda valida");
                break;
                
-       }
+         }
        }
               
         
@@ -319,12 +343,12 @@ public class InterfaceGrafica extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel jpanel;
+    private java.awt.Label label1;
+    private java.awt.Label label2;
     private javax.swing.JButton loginTecnico;
     private javax.swing.JTextField moedaCampo;
-    private javax.swing.JTextArea painelUsuario2;
     // End of variables declaration//GEN-END:variables
 
     private void criarTecnicos() {
@@ -352,11 +376,21 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         float precoMedio = (float) 2.00;
         float precoGrande = (float) 5.35;
         
-        painelUsuario2.setText(nomeBebida + "\n" +
+        label1.setText(nomeBebida + "\n" +
                 " P - R$ "+ precoPequeno + "\n" +
                 " M - R$ "+ precoMedio + "\n" +
                 " G - R$ "+ precoGrande);
 
 
+    }
+
+    private void abrirRecursos() {
+        
+        
+        this.objArmazemCopo = new ArmazemCopo(new Copo("P", 100), 100, 500, 20);
+        this.objArmazemin = new ArmazemIngrediente(new Ingrediente("cafe", "150"), 100, 500, 20);
+        this.objArmazemMoeda = new ArmazemMoeda(new Moeda("moeda1",100), 100, 500, 20);
+       
+        
     }
 }
