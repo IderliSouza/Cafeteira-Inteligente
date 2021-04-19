@@ -20,6 +20,11 @@ public class LivroReceitas {
        //livroReceitas.add(new Receita(descricao, valor, tipo, copo));
    }
    
+   public void addReceitaNoLivroReceita(Receita receita)
+   {
+       livroReceitas.add(receita);
+   }
+   
    public Receita procuraReceitaLivro(String descricao)
    {
         for(int i = 0; i < livroReceitas.size(); i++)
@@ -34,11 +39,11 @@ public class LivroReceitas {
    {
         for(int i = 0; i < livroReceitas.size(); i++)
         {
-            System.out.println("Receita - " + livroReceitas.get(i).getDescricao());
-//            for(int y = 0; y < livroReceitas.get(i).getIngredientes().size(); y++)
-//            {
-//                System.out.println(":: Ingrediente - " + livroReceitas.get(i).getIngredientes().get(y).ingrediente.getNome() + " ( " + livroReceitas.get(i).getIngredientes().get(y).quantidade + " )" );
-//            }
+            System.out.println("Receita - " + livroReceitas.get(i).getDescricao() + " | Preço: " + livroReceitas.get(i).getValor());
+            for(int y = 0; y < livroReceitas.get(i).getIngredientes().size(); y++)
+            {
+                System.out.println(":: Ingrediente - " + livroReceitas.get(i).getIngredientes().get(y).ingrediente.getNome() + " (" + livroReceitas.get(i).getIngredientes().get(y).quantidade + ")" );
+            }
         }
    }
 }

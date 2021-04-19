@@ -174,8 +174,7 @@ public class Simulador {
         if(objReceita != null)
             setErro("RECEITA DUPLICADA: " + contadorLinha + " >> " + linha);
             
-        objLivroReceitas.addReceitaNoLivroReceita(nome, preco, tipo, objArmazemCopo.getCopo());
-        
+        objReceita = new Receita(nome, preco, tipo, objArmazemCopo.getCopo());
         for(int i = 4;i < arrayValores.length; i += 2)
         {
             String ingrediente = arrayValores[i];
@@ -185,8 +184,10 @@ public class Simulador {
             if(objIngrediente == null)
                 setErro("INGREDIENTE da receita não existe na dispensa " + contadorLinha + " >> " + linha);
             
+            objReceita.addIngredienteNaReceita(objIngrediente.getIngrediente(), quantidade);
             // não to conseguindo adicionar ingredientes na receita desta forma!
         }
+        objLivroReceitas.addReceitaNoLivroReceita(objReceita);
     }
     
     public void setErro(String msg)

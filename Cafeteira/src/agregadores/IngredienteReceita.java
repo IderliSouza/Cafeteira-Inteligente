@@ -13,12 +13,17 @@ import core.Ingrediente;
 public class IngredienteReceita {
     public Ingrediente ingrediente;
     public int quantidade;
+    
     public IngredienteReceita(Ingrediente ingrediente, int quantidade)
     {
         this.ingrediente = ingrediente;
         this.setQuantidade(quantidade);
     }
     
+    public Ingrediente getIngrediente()
+    {
+        return this.ingrediente;
+    }
     
     private void setQuantidade(int quantidade)
     {

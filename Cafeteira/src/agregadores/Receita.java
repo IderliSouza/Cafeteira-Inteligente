@@ -22,6 +22,7 @@ public class Receita {
         this.setValor(valor);
         this.setTipo(tipo);        
         this.setStatus(true);
+        this.ingredientesReceita = new ArrayList<IngredienteReceita>();
     }
 
     public String getDescricao() {
