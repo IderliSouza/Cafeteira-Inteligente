@@ -10,9 +10,14 @@ import core.Moeda;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import core.Tecnico;
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import static javax.swing.JOptionPane.showMessageDialog;
+import programa.Maquina;
 
 
 /*
@@ -32,17 +37,26 @@ public class InterfaceGrafica extends javax.swing.JFrame {
     public Armazem objArmazemin;
     public Armazem objArmazemMoeda;
     Mensagens mensagens = new Mensagens();
+    ArrayList<String> receitas = null;
+    Maquina cafeteira = null;
+    String itemSelecionado = null;
+    String itemConvertivo = null;
+    String nivelAcucar = null;
+    int acucarConvertido = 0;
+    int valorDepositado = 0;
+    
     
     /**
      * Creates new form interfaceGrafica
      */
-    public InterfaceGrafica() {
+    public InterfaceGrafica() throws FileNotFoundException {
         initComponents();
         criarTecnicos();
-        preencherPainel();
+        desabilitarBotoes();
         abrirRecursos();
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,34 +66,46 @@ public class InterfaceGrafica extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        expressoBotao = new javax.swing.JButton();
+        cappuccinoBotao = new javax.swing.JButton();
+        cafeComLeiteBotao = new javax.swing.JButton();
+        chocolateQuenteBotao = new javax.swing.JButton();
         copovazio = new javax.swing.JLabel();
         loginTecnico = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jpanel = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         moedaCampo = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        label1 = new java.awt.Label();
-        label2 = new java.awt.Label();
+        listview = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Cafe expresso");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        expressoBotao.setText("Cafe expresso");
+        expressoBotao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                expressoBotaoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cappuccino");
+        cappuccinoBotao.setText("Cappuccino");
+        cappuccinoBotao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cappuccinoBotaoActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Cafe com leite");
+        cafeComLeiteBotao.setText("Cafe com leite");
+        cafeComLeiteBotao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cafeComLeiteBotaoActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Chocolate quente");
+        chocolateQuenteBotao.setText("Chocolate quente");
+        chocolateQuenteBotao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chocolateQuenteBotaoActionPerformed(evt);
+            }
+        });
 
         loginTecnico.setText("Tecnico");
         loginTecnico.addActionListener(new java.awt.event.ActionListener() {
@@ -87,17 +113,6 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                 loginTecnicoActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 168, Short.MAX_VALUE)
-        );
 
         jButton5.setText("Inserir Moeda");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -123,14 +138,14 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         jpanelLayout.setHorizontalGroup(
             jpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton5))
-                    .addGroup(jpanelLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(moedaCampo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpanelLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpanelLayout.createSequentialGroup()
+                        .addComponent(moedaCampo, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))))
         );
         jpanelLayout.setVerticalGroup(
             jpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,11 +156,16 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                 .addGap(0, 30, Short.MAX_VALUE))
         );
 
-        jTextField1.setText("Retirar");
-
-        label1.setText("label1");
-
-        label2.setText(" ");
+        listview.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listviewMouseClicked(evt);
+            }
+        });
+        listview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listviewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,36 +176,23 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cappuccinoBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(expressoBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cafeComLeiteBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(chocolateQuenteBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(280, 280, 280)
-                                .addComponent(copovazio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(344, 344, 344)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(loginTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(197, 197, 197))))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(280, 280, 280)
+                        .addComponent(copovazio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(loginTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,30 +200,20 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(loginTecnico)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(162, 162, 162)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(144, 144, 144)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loginTecnico))
+                        .addGap(96, 96, 96)
                         .addComponent(copovazio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(15, 15, 15))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(expressoBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cappuccinoBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cafeComLeiteBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(chocolateQuenteBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
                         .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -225,25 +222,9 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-        
-        label1.setText("Cafe expresso" + "\n"
-                + " P - R$ " + "0.75" + "\n\n"
-                + " M - R$ " + "2.00" + "\n\n"
-                + " G - R$ " + "5.35" + "\n" + "\n" + "\n \n \n"
-                + "Nivel de açucar" + "\n \n"
-                + "S - 0gr" + "\n"
-                + "P - 5gr" + "\n"
-                + "M - 8gr" + "\n"
-                + "G - 12gr");
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void loginTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginTecnicoActionPerformed
         
-        Login login = new Login(tecnicos, this.objArmazemCopo, this.objArmazemMoeda, this.objArmazemin);
+        Login login = new Login(tecnicos, cafeteira, this);
         
         login.setVisible(true);
         
@@ -260,19 +241,101 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         int moeda = Integer.parseInt(moedaCampo.getText());
        switch (moeda){
            case 5:
-               this.mensagens.mensagemTela("Moeda inserida");
+               
+               Moeda moedaAtual = new Moeda("cinco", 5);
+               for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+                   if(cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()==moeda){
+                       boolean status = cafeteira.contador.verificarMoeda(moedaAtual, cafeteira.objCofre.moedasInternas.get(i));
+                       
+                       if(status){
+                           valorDepositado +=moeda;
+                           this.mensagens.mensagemTela("Moeda inserida");
+                       }else{
+                           this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
+                                   + "Retornando moeda de " + moeda + "centavos");
+                       }
+                   
+                   }
+               }
+               
+               
                break;
            case 10:
-               this.mensagens.mensagemTela("Moeda inserida");
+                 Moeda moedaAtual1 = new Moeda("dez", 10);
+               for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+                   if(cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()==moeda){
+                       boolean status = cafeteira.contador.verificarMoeda(moedaAtual1, cafeteira.objCofre.moedasInternas.get(i));
+                       
+                       if(status){
+                           valorDepositado +=moeda;
+                            this.mensagens.mensagemTela("Moeda inserida");
+                       }else{
+                           this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
+                                   + "Retornando moeda de " + moeda + "centavos");
+                       }
+                   
+                   }
+               }
+               
+               
+              
                break;
            case 25:
-               this.mensagens.mensagemTela("Moeda inserida");
+               
+                 Moeda moedaAtual2 = new Moeda("vinte", 25);
+               for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+                   if(cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()==moeda){
+                       boolean status = cafeteira.contador.verificarMoeda(moedaAtual2, cafeteira.objCofre.moedasInternas.get(i));
+                       
+                       if(status){
+                           valorDepositado +=moeda;
+                           this.mensagens.mensagemTela("Moeda inserida");
+                       }else{
+                           this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
+                                   + "Retornando moeda de " + moeda + "centavos");
+                       }
+                   
+                   }
+               }
+               
                break;
            case 50:
-               this.mensagens.mensagemTela("Moeda inserida");
+               
+                Moeda moedaAtual3 = new Moeda("cinquenta", 50);
+               for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+                   if(cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()==moeda){
+                       boolean status = cafeteira.contador.verificarMoeda(moedaAtual3, cafeteira.objCofre.moedasInternas.get(i));
+                       
+                       if(status){
+                           valorDepositado +=moeda;
+                           this.mensagens.mensagemTela("Moeda inserida");
+                       }else{
+                           this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
+                                   + "Retornando moeda de " + moeda + "centavos");
+                       }
+                   
+                   }
+               }
+              
                break;
            case 100:
-               this.mensagens.mensagemTela("Moeda inserida");
+               
+                Moeda moedaAtual4 = new Moeda("um", 100);
+               for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+                   if(cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()==moeda){
+                       
+                       boolean status = cafeteira.contador.verificarMoeda(moedaAtual4, cafeteira.objCofre.moedasInternas.get(i));
+                       
+                       if(status){
+                           valorDepositado +=moeda;
+                           this.mensagens.mensagemTela("Moeda inserida");
+                       }else{
+                           this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
+                                   + "Retornando moeda de " + moeda + "centavos");
+                       }
+                   
+                   }
+               }
                break;
            case 0:
                this.mensagens.mensagemTela("Nenhuma moeda inserida");
@@ -282,9 +345,10 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                break;
                
          }
+       
+       moedaCampo.setText("0");
        }
               
-        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void moedaCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moedaCampoActionPerformed
@@ -298,6 +362,157 @@ public class InterfaceGrafica extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_moedaCampoKeyTyped
+
+    private void listviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listviewActionPerformed
+     
+   
+        
+    }//GEN-LAST:event_listviewActionPerformed
+
+    private void expressoBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expressoBotaoActionPerformed
+        listview.clear();
+        listview.setEnabled(true);
+        for(int i=0;i<receitas.size(); i++){
+             if(receitas.get(i).equalsIgnoreCase("Café Expresso (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Café Expresso (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Café Expresso (G)")){
+                    int valor = cafeteira.objLivroReceitas.procuraReceitaLivro(receitas.get(i)).getValor();
+                    DecimalFormat formatador = new DecimalFormat("###,##0.00");
+                  
+                    double valorCorreto = valor*0.01;
+                    String valorConvertido = formatador.format(valorCorreto);
+                    
+                    listview.add(receitas.get(i) +"  valor: " + valorConvertido);
+                    
+             }
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_expressoBotaoActionPerformed
+
+    private void listviewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listviewMouseClicked
+          
+        if(listview.getItem(0).equalsIgnoreCase("Açucar: S: 0gr")){
+            nivelAcucar = listview.getSelectedItem();
+            
+            
+            double valorPago = converterValorPago();
+            double valorBebida = converterValor();
+            
+            if(valorPago !=0 && valorBebida != 0){
+                
+            
+            ArrayList<Moeda> moedas = pegarMoedas();
+            ArrayList<Moeda> todasMoedas = criarListaMoeda();
+            String[] troco = cafeteira.contador.verificarTroco(valorBebida, valorPago, todasMoedas
+            , cafeteira.objCofre);
+            this.mensagens.mensagemTela(troco[0]);
+            
+            String item = converterItemSelecionado();
+            System.out.println(itemConvertivo);
+            if(troco[1].equalsIgnoreCase("true")){
+                this.valorDepositado = 0;
+                System.out.println("ESSE E O ITEM" + item);
+                cafeteira.prepararBebida(item, converterAcucar());
+                
+                
+                try {
+                    abrirRecursos();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(InterfaceGrafica.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+            }
+            
+            }else{
+                this.mensagens.mensagemTela("Insira moedas na maquina antes de selecionar uma bebida");
+            }
+        }else{
+        
+          itemSelecionado = listview.getSelectedItem();
+          itemConvertivo = itemSelecionado;
+          
+          listview.clear();
+          listview.add("Açucar: S: 0gr");
+        if(cafeteira.objDispensa.procurarDispensaIngrediente("açucar").getQuantidade()>=5){
+            listview.add("Açucar: P: 5gr");
+        }
+         if(cafeteira.objDispensa.procurarDispensaIngrediente("açucar").getQuantidade()>=8){
+            listview.add("Açucar: M: 8gr");
+        }
+         
+         if(cafeteira.objDispensa.procurarDispensaIngrediente("açucar").getQuantidade()>=12){
+            listview.add("Açucar: G: 12gr");
+        }
+        }
+        
+    }//GEN-LAST:event_listviewMouseClicked
+
+    private void cappuccinoBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cappuccinoBotaoActionPerformed
+
+
+  listview.clear();
+        listview.setEnabled(true);
+        for(int i=0;i<receitas.size(); i++){
+             if(receitas.get(i).equalsIgnoreCase("Cappuccino (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Cappuccino (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Cappuccino (G)")){
+                    int valor = cafeteira.objLivroReceitas.procuraReceitaLivro(receitas.get(i)).getValor();
+                    DecimalFormat formatador = new DecimalFormat("###,##0.00");
+                  
+                    double valorCorreto = valor*0.01;
+                    String valorConvertido = formatador.format(valorCorreto);
+                    
+                    listview.add(receitas.get(i) +"  valor: " + valorConvertido);
+                    
+             }
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cappuccinoBotaoActionPerformed
+
+    private void cafeComLeiteBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cafeComLeiteBotaoActionPerformed
+  listview.clear();
+        listview.setEnabled(true);
+        for(int i=0;i<receitas.size(); i++){
+             if(receitas.get(i).equalsIgnoreCase("Café com Leite (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Café com Leite (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Café com Leite (G)")){
+                    int valor = cafeteira.objLivroReceitas.procuraReceitaLivro(receitas.get(i)).getValor();
+                    DecimalFormat formatador = new DecimalFormat("###,##0.00");
+                  
+                    double valorCorreto = valor*0.01;
+                    String valorConvertido = formatador.format(valorCorreto);
+                    
+                    listview.add(receitas.get(i) +"  valor: " + valorConvertido);
+                    
+             }
+        }       
+        
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_cafeComLeiteBotaoActionPerformed
+
+    private void chocolateQuenteBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chocolateQuenteBotaoActionPerformed
+  listview.clear();
+        listview.setEnabled(true);
+        for(int i=0;i<receitas.size(); i++){
+             if(receitas.get(i).equalsIgnoreCase("Chocolate Quente (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Chocolate Quente (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Chocolate Quente (G)")){
+                    int valor = cafeteira.objLivroReceitas.procuraReceitaLivro(receitas.get(i)).getValor();
+                    DecimalFormat formatador = new DecimalFormat("###,##0.00");
+                  
+                    double valorCorreto = valor*0.01;
+                    String valorConvertido = formatador.format(valorCorreto);
+                    
+                    listview.add(receitas.get(i) +"  valor: " + valorConvertido);
+                    
+             }
+        }       
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chocolateQuenteBotaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,23 +545,24 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfaceGrafica().setVisible(true);
+                try {
+                    new InterfaceGrafica().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(InterfaceGrafica.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cafeComLeiteBotao;
+    private javax.swing.JButton cappuccinoBotao;
+    private javax.swing.JButton chocolateQuenteBotao;
     private javax.swing.JLabel copovazio;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton expressoBotao;
     private javax.swing.JButton jButton5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel jpanel;
-    private java.awt.Label label1;
-    private java.awt.Label label2;
+    private java.awt.List listview;
     private javax.swing.JButton loginTecnico;
     private javax.swing.JTextField moedaCampo;
     // End of variables declaration//GEN-END:variables
@@ -369,28 +585,148 @@ public class InterfaceGrafica extends javax.swing.JFrame {
 
     }
 
-    private void preencherPainel() {
-        
-        String nomeBebida = "Cafe expresso";
-        float precoPequeno = (float) 0.75;
-        float precoMedio = (float) 2.00;
-        float precoGrande = (float) 5.35;
-        
-        label1.setText(nomeBebida + "\n" +
-                " P - R$ "+ precoPequeno + "\n" +
-                " M - R$ "+ precoMedio + "\n" +
-                " G - R$ "+ precoGrande);
 
-
-    }
-
-    private void abrirRecursos() {
+    private void abrirRecursos() throws FileNotFoundException {
         
+        cafeteira = new Maquina("teste.txt");
         
-        this.objArmazemCopo = new ArmazemCopo(new Copo("P", 100), 100, 500, 20);
-        this.objArmazemin = new ArmazemIngrediente(new Ingrediente("cafe", "150"), 100, 500, 20);
-        this.objArmazemMoeda = new ArmazemMoeda(new Moeda("moeda1",100), 100, 500, 20);
+        receitas = cafeteira.barista.mostrarReceitasValidas();
+        for(int i=0;i<receitas.size();i++){
+            if(receitas.get(i).equalsIgnoreCase("Café Expresso (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Café Expresso (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Café Expresso (G)")){
+                expressoBotao.setEnabled(true);
+            }
+            if(receitas.get(i).equalsIgnoreCase("Cappuccino (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Cappuccino (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Cappuccino (G)")){
+                cappuccinoBotao.setEnabled(true);
+            }
+            if(receitas.get(i).equalsIgnoreCase("Café com Leite(P)") || 
+                    receitas.get(i).equalsIgnoreCase("Café com Leite (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Café com Leite (G)")){
+                cafeComLeiteBotao.setEnabled(true);
+            }
+            if(receitas.get(i).equalsIgnoreCase("Chocolate Quente (P)") || 
+                    receitas.get(i).equalsIgnoreCase("Chocolate Quente (M)") || 
+                    receitas.get(i).equalsIgnoreCase("Chocolate Quente (G)")){
+                chocolateQuenteBotao.setEnabled(true);
+            }
+                
+                
+            
+            listview.add(receitas.get(i));
+        }
+        
+        listview.setEnabled(false);
+        
+       
+
        
         
     }
+
+    private void desabilitarBotoes() {
+
+        expressoBotao.setEnabled(false);
+        cappuccinoBotao.setEnabled(false);
+        cafeComLeiteBotao.setEnabled(false);
+        chocolateQuenteBotao.setEnabled(false);
+    }
+
+    private double converterValor() {
+         try{
+    String valor[] = new String[2];
+    
+             System.out.println(itemSelecionado);
+    valor = itemSelecionado.split(": ");
+   
+     valor[1] = valor[1].replaceAll(",", ".");
+             System.out.println(valor[1]);
+
+        return Double.parseDouble(valor[1]);
+         }catch(ArrayIndexOutOfBoundsException e){
+             System.out.println("necesario inserir moedas");
+         }
+        return 0;
+        
+    };
+
+    private double converterValorPago() {
+        
+        try{
+        DecimalFormat formatador = new DecimalFormat("###,##0.00");
+                  
+        double valorCorreto = valorDepositado*0.01;
+        String valorConvertido = formatador.format(valorCorreto);
+        valorConvertido = valorConvertido.replaceAll(",", ".");
+
+        return Double.parseDouble(valorConvertido);
+        }catch(ArrayIndexOutOfBoundsException e){
+             System.out.println("necesario inserir moedas");
+         }
+        return 0;
+
+
+    }
+
+    private ArrayList<Moeda> pegarMoedas() {
+
+        ArrayList<Moeda> moedas = new ArrayList();
+        for(int i=0; i<cafeteira.objCofre.moedasInternas.size();i++){
+            moedas.add(cafeteira.objCofre.moedasInternas.get(i).getMoeda());
+        }
+            
+        return moedas;
+
+    }
+
+    private ArrayList<Moeda> criarListaMoeda() {
+        ArrayList<Moeda> moedas = new ArrayList();
+        
+        for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+            for(int j=0;j<cafeteira.objCofre.moedasInternas.get(i).getQuantidade();j++){
+                moedas.add(cafeteira.objCofre.moedasInternas.get(i).getMoeda());
+            }
+        }
+
+        return moedas;
+
+        
+
+    };
+
+    private int converterAcucar() {
+        try{
+        String acucares = "Açucar: S: 0gr";
+        String valor[] = new String[3];
+
+    valor = acucares.split(": ");
+    
+    String valor1[] = new String[2];
+    valor1 = valor[2].split("g");
+        return Integer.parseInt(valor1[0]);
+        }catch(ArrayIndexOutOfBoundsException e){
+             System.out.println("necesario selecionar nivel de açucar");
+         }
+        return 0;
+    };
+        
+    private String converterItemSelecionado() {
+         try{
+             String item = itemSelecionado;
+             System.out.println("ESSE E O PRIMEIRO ITEM: "+ item);
+     String valor[] = new String[2];
+    valor = item.split("  v");
+
+       item = valor[0];
+       return item;
+         }catch(ArrayIndexOutOfBoundsException e){
+             System.out.println("necesario selecionar bebida");
+         }
+        return itemSelecionado;
+    };
+
+    
+    
 }

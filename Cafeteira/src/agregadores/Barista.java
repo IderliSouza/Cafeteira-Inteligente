@@ -69,15 +69,16 @@ public class Barista {
     }
     
     private boolean setStatus(int status, String mensagem) {
+        
         this.status = status;
         Mensagens.mensagemTela("BARISTA: " + getStatus(mensagem));
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
-        if(this.status > 20)
+        if(this.status > 20){
             return false;
-        
+        }
         return true;
     }
     

@@ -3,6 +3,10 @@ import armazem.ArmazemCopo;
 import armazem.ArmazemIngrediente;
 import armazem.ArmazemMoeda;
 import core.Armazem;
+import core.Mensagens;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import programa.Maquina;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,20 +20,18 @@ import core.Armazem;
  */
 public class OperacaoMaquina extends javax.swing.JFrame {
 
-    ArmazemCopo copos;
-    ArmazemMoeda moedas;
-    ArmazemIngrediente ingredientes;
+    Maquina cafeteira = null;
+    InterfaceGrafica interfaceGrafica = null;
     
     /**
      * Creates new form OperacaoMaquina
      */
-    public OperacaoMaquina(Armazem copo, Armazem moeda, Armazem ingrediente) {
-        
-        this.copos = (ArmazemCopo) copo;
-        this.moedas = (ArmazemMoeda) moeda;
-        this.ingredientes = (ArmazemIngrediente) ingrediente;
+    public OperacaoMaquina(Maquina cafeteira, InterfaceGrafica interfaceGrafica) {
+       this.interfaceGrafica = interfaceGrafica;
+        this.cafeteira = cafeteira;
         initComponents();
         mostrarRecursos();
+
     }
 
     private OperacaoMaquina() {
@@ -46,24 +48,30 @@ public class OperacaoMaquina extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        recursosMaquina = new javax.swing.JTextArea();
+        listview = new java.awt.List();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Atualizar a Maquina para os valores iniciais");
+        jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        recursosMaquina.setColumns(20);
-        recursosMaquina.setRows(5);
-        jScrollPane2.setViewportView(recursosMaquina);
+        listview.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listviewMouseClicked(evt);
+            }
+        });
+        listview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listviewActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Retirar");
+        jButton2.setText("Atualizar Maquina para dados iniciais");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -74,61 +82,72 @@ public class OperacaoMaquina extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                .addGap(89, 89, 89))
+                        .addComponent(jButton1)
+                        .addGap(64, 64, 64)
+                        .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(21, 21, 21))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-      //     int reporCopos = copos.getQuantidadeMax()-copos.getQuantidade();
-           copos.reporRecurso(150);
-       
-           //int reporMoedas = moedas.getQuantidadeMax()-moedas.getQuantidade();
-           moedas.reporRecurso(150);
-           
-          // int reporIngredientes = ingredientes.getQuantidadeMax()-ingredientes.getQuantidade();
-           ingredientes.reporRecurso(150);
-           
-         //ele ta repondo substituindo o valor pelo valor pedido para repor,
-         //na verdade tem que somar  
-       
-        
-         mostrarRecursos();
-        this.repaint();
+        interfaceGrafica.setVisible(true);
+        this.setVisible(false);
        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void listviewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listviewMouseClicked
+
+       
+
+ 
+    }//GEN-LAST:event_listviewMouseClicked
+
+    private void listviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listviewActionPerformed
+
+    }//GEN-LAST:event_listviewActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        copos.retirarRecurso(30);
-        moedas.retirarRecurso(30);
-        ingredientes.retirarRecurso(40);
-        
+           
+        listview.clear();
+        cafeteira.parserArquivo();
+        Mensagens mensagens = new Mensagens();
+        mensagens.mensagemTela("Verificando recursos necessarios para reposiçao");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(OperacaoMaquina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        mensagens.mensagemTela("Atualizando recursos no Estoque");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(OperacaoMaquina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        mensagens.mensagemTela("Reposiçao realizada com sucesso");
         mostrarRecursos();
-        this.repaint();
-        
+
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -169,19 +188,40 @@ public class OperacaoMaquina extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea recursosMaquina;
+    private java.awt.List listview;
     // End of variables declaration//GEN-END:variables
 
     private void mostrarRecursos() {
         
+        listview.add("Copos");
+        for(int i=0;i<cafeteira.objDispensa.dispensaCopo.size();i++){
+            listview.add("Copo : " + cafeteira.objDispensa.dispensaCopo.get(i).getCopo().getNome() +
+                               " | Volume : " + cafeteira.objDispensa.dispensaCopo.get(i).getCopo().getVolume() + " ml " +
+                               " | Quantidade Atual: " + cafeteira.objDispensa.dispensaCopo.get(i).getQuantidade() +
+                               " | Quantidade Máxima: " + cafeteira.objDispensa.dispensaCopo.get(i).getQuantidadeMax() +
+                               " | Quantidade Mínima: " + cafeteira.objDispensa.dispensaCopo.get(i).getQuantidadeMin());
+        }
+        listview.add("Ingredientes");
+        for(int i=0;i<cafeteira.objDispensa.dispensaIngrediente.size();i++){
+            listview.add("Ingrediente : " + cafeteira.objDispensa.dispensaIngrediente.get(i).getIngrediente().getNome()
+                    + " | Unidade : " + cafeteira.objDispensa.dispensaIngrediente.get(i).getIngrediente().getUnidade()
+                    + " | Quantidade Atual: " + cafeteira.objDispensa.dispensaIngrediente.get(i).getQuantidade()
+                    + " | Quantidade Máxima: " + cafeteira.objDispensa.dispensaIngrediente.get(i).getQuantidadeMax()
+                    + " | Quantidade Mínima: " + cafeteira.objDispensa.dispensaIngrediente.get(i).getQuantidadeMin());
+        }
         
         
-        recursosMaquina.append("Copo: " + copos.getCopo().getNome() + " " + copos.getCopo().getVolume() +"\n"
-        + "Moeda: " +moedas.getMoeda().getNome() + " " + moedas.getMoeda().getValor() + "\n" +
-                "Ingrediente: " +ingredientes.getIngrediente().getNome() + " " + ingredientes.getIngrediente().getUnidade());
-      
-       
+        listview.add("Moedas");
+
         
+        for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
+            listview.add("Moeda : " + cafeteira.objCofre.moedasInternas.get(i).getMoeda().getNome()
+                    + " | Valor : " + cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()
+                    + " | Quantidade Atual: " + cafeteira.objCofre.moedasInternas.get(i).getQuantidade()
+                    + " | Quantidade Máxima: " + cafeteira.objCofre.moedasInternas.get(i).getQuantidadeMax()
+                    + " | Quantidade Mínima: " + cafeteira.objCofre.moedasInternas.get(i).getQuantidadeMin());
+        }
     }
+
+    
 }

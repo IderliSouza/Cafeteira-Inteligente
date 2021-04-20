@@ -4,6 +4,7 @@ import core.Tecnico;
 import java.awt.List;
 import java.util.ArrayList;
 import static javax.swing.JOptionPane.showMessageDialog;
+import programa.Maquina;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,16 +22,17 @@ public class Login extends javax.swing.JFrame {
     Armazem copos;
     Armazem moedas;
     Armazem ingredientes;
+    Maquina cafeteira= null;
+    InterfaceGrafica interfaceGrafica= null;
     
     /**
      * Creates new form login
      */
-    public Login(ArrayList Tecnicos, Armazem copo, Armazem moeda, Armazem ingrediente) {
+    public Login(ArrayList<Tecnico> tecnicos, Maquina cafeteira, InterfaceGrafica interfaceGrafica) {
+        this.interfaceGrafica = interfaceGrafica;
         
-        this.copos = copo;
-        this.moedas = moeda;
-        this.ingredientes = ingrediente;
-        this.tecnicos = Tecnicos;
+        this.cafeteira = cafeteira;
+        this.tecnicos = tecnicos;
         initComponents();
     }
 
@@ -50,6 +52,7 @@ public class Login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         senha = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        voltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,6 +76,13 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setText("Digite sua senha");
 
+        voltar.setText("Voltar");
+        voltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,13 +97,15 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(97, 97, 97)
-                        .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(voltar))
                 .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(110, Short.MAX_VALUE)
+                .addComponent(voltar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -124,7 +136,7 @@ public class Login extends javax.swing.JFrame {
             int valor = Integer.parseInt(senha.getText());
             if(tecnico.checkTecnico(valor)){
                 this.tecnico = tecnicos.get(i);
-                OperacaoMaquina operacao = new OperacaoMaquina(copos, moedas, ingredientes);
+                OperacaoMaquina operacao = new OperacaoMaquina(cafeteira, interfaceGrafica);
                 operacao.setVisible(true);
                 this.setVisible(false);
                 break;
@@ -133,6 +145,15 @@ public class Login extends javax.swing.JFrame {
             break;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
+        interfaceGrafica.setVisible(true);
+        
+        this.setVisible(false);
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_voltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,5 +196,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField senha;
+    private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
 }

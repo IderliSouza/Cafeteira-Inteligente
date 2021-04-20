@@ -1,7 +1,9 @@
+import agregadores.Contador;
 import agregadores.Receita;
+import core.Moeda;
 import java.io.FileNotFoundException;
 import programa.Maquina;
-
+import core.Mensagens;
 /**
  *
  * @author micre
@@ -50,10 +52,10 @@ public class TesteLeitura {
         */
         
         // 2
-        Receita receitaEscolhida = cafeteira.objLivroReceitas.procuraReceitaLivro(nomeReceita);
+       // Receita receitaEscolhida = cafeteira.objLivroReceitas.procuraReceitaLivro(nomeReceita);
         
-        if(cafeteira.contador.verificarValor(receitaEscolhida, Integer.parseInt(comValorDepositado)))
-        {
+       // if(cafeteira.contador.verificarValor(receitaEscolhida, Integer.parseInt(comValorDepositado)))
+        //{
             // 3 ALTERAR (cafeteira.objCofre.moedasInternas) PARA O PARÂMETRO QUE TU PRECISA
             /*
                     cafeteira.contador.verificarTroco(
@@ -63,23 +65,48 @@ public class TesteLeitura {
             */
             
             // 4 (TRANSFORMAR O 2° PARÂMETRO EM INTEIRO COM O VALOR DO AÇUCAR CONSUMIDO
-            if(!cafeteira.barista.prepararBebida(receitaEscolhida, acucar))
-            {
+          //  if(!cafeteira.barista.prepararBebida(receitaEscolhida, acucar))
+            //{
                 //cafeteira.contador.darTroco();
                 //cafeteira.contador.AtualizarMoedarios(cafeteira.objCofre);
                 
-                for(int i = 0; i < cafeteira.objCofre.moedasInternas.size(); i++)
-                {
+              //  for(int i = 0; i < cafeteira.objCofre.moedasInternas.size(); i++)
+              //  {
                     
-                }
-            }
+                //}
+            //}
                     
-        }
+        //}
         
-        System.out.println(cafeteira.barista.mostrarReceitas());
-        for(int i = 0; i <= 15; i++)
-            cafeteira.prepararBebida("Cappuccino (G)", 10);
+     //   System.out.println(cafeteira.barista.mostrarReceitas());
+     
+     
+       // Receita receitaEscolhida = cafeteira.objLivroReceitas.procuraReceitaLivro(
+        //cafeteira.barista.mostrarReceitas().get(0));
+        
+        
+        //System.out.println(receitaEscolhida.getDescricao());
+        
+       // if(cafeteira.contador.verificarValor(receitaEscolhida, 30.00)){
+            
 
-        System.out.println(cafeteira.barista.mostrarReceitasValidas());
+       
+//}
+     
+String item = "Café Expresso (P)  valor: 2.00";
+    
+       String valor[] = new String[2];
+    
+    valor = item.split(": ");
+     valor[1] = valor[1].replaceAll(",", ".");
+        System.out.println(valor[1]);
+    
+        
+      //  System.out.println(cafeteira.contador.verificarTroco(0.75, 2.00, moedas));
+        // System.out.println(contador.verificarTroco(0.75, 2.00, moedas));
+//  for(int i = 0; i <= 15; i++)
+        //    cafeteira.prepararBebida("Cappuccino (G)", 10);
+
+        //System.out.println(cafeteira.barista.mostrarReceitasValidas());
     }
 }

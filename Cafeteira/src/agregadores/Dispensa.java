@@ -15,8 +15,8 @@ import java.util.ArrayList;
  * @author micre
  */
 public class Dispensa {
-    ArrayList<ArmazemIngrediente> dispensaIngrediente;
-    ArrayList<ArmazemCopo> dispensaCopo;
+   public ArrayList<ArmazemIngrediente> dispensaIngrediente;
+   public ArrayList<ArmazemCopo> dispensaCopo;
     
     public Dispensa()
     {

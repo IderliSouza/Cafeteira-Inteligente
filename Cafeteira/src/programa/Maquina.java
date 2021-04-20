@@ -22,7 +22,7 @@ public class Maquina extends Simulador {
         
         objDispensa.mostrarDadosCopos();
         objDispensa.mostrarDadosIngrediente();
-
+        this.contador = new Contador();
         barista = new Barista(objLivroReceitas, objDispensa);
 
     }

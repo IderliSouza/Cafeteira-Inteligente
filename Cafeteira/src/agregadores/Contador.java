@@ -1,6 +1,7 @@
 package agregadores;
 
 import armazem.ArmazemMoeda;
+import core.Mensagens;
 import core.Moeda;
 import java.awt.List;
 import java.text.DecimalFormat;
@@ -58,15 +59,30 @@ public class Contador {
         return "ERROR !";
     }
     
-    private void setStatus(int status) {
+    public void setStatus(int status) {
+        
         this.status = status;
     }
     
     public boolean verificarMoeda(Moeda moeda, ArmazemMoeda moedas)
     {
         moedaAtual = moeda;
+        Mensagens mensagem = new Mensagens();
+        if(moedas.getQuantidade()<80){
+            moedas.reporUnidade();
+            return true;
+        }
+        if(moedas.getQuantidade()>= 80){
+            mensagem.mandaEmailTecnico("Necessario reposiçao de moedas");
+            return false;
+        }
         
-        // return true se <80 e quantidade diferente de qunatidade maxima
+        if(moedas.getQuantidade()== moedas.getQuantidadeMax()){
+            mensagem.mandaEmailTecnico("Necessario reposiçao de moedas");
+            return false;
+        }
+        
+        // return true se <80 e quantidade diferente de quanatidade maxima
         // return false se se quantidade atual igual a quatidade maxima
         // notificar tecnico  +80 e maxima
         
@@ -88,13 +104,17 @@ public class Contador {
         
     };
     
-    public String verificarTroco(double conta, double pago, ArrayList<Moeda> moedas)
+       public String[] verificarTroco(double conta, double pago, ArrayList<Moeda> moedas, Cofre cofre)
     {
+        
+        String[] retorno = new String[2];
         DecimalFormat formatador = new DecimalFormat("###,##0.00");
-    if (pago < conta)
-       return("\nPagamento insuficiente, faltam R$"+
-         formatador.format(conta - pago) +"\n");
-   else {
+    if (pago < conta){
+        retorno[0] = "\nPagamento insuficiente, faltam R$"+
+         formatador.format(conta - pago) +"\n";
+        retorno[1]= "false";
+        return retorno;
+    }else {
       ArrayList centavos = new ArrayList();
       centavos.add(50);
       centavos.add(25);
@@ -129,7 +149,13 @@ public class Contador {
         if (ct != 0) {
            result = result + (ct +"moeda(s) de"+ (int)centavos.get(i) +
            "centavo(s)\n");
-           vlr = vlr %  (int)centavos.get(i); // sobra
+           for(int j=0;j<cofre.moedasInternas.size();j++){
+               if(cofre.moedasInternas.get(i).getMoeda().getValor() == (int)centavos.get(i)){
+                   cofre.moedasInternas.get(i).retirarRecurso(ct);
+               }
+           }
+           
+           vlr = vlr %  (int)centavos.get(i);// sobra
         }
         i = i + 1; // próximo centavo
       }
@@ -153,19 +179,27 @@ public class Contador {
           
         if (ct != 0) {
            result = result + (ct +"moedas de R$"+ (int)centavos.get(i) +"\n");
+           
+           for(int j=0;j<cofre.moedasInternas.size();j++){
+               if(cofre.moedasInternas.get(i).getMoeda().getValor() == (int)centavos.get(i)){
+                   cofre.moedasInternas.get(i).retirarRecurso(ct);
+               }
+           }
            vlr = vlr % (int)centavos.get(i); // sobra
+           
         }
         i = i + 1; // próxima nota
       }
       
       
-
-      return(result);
-    }
-  
+       retorno[0] = result;
+       retorno[1] = "true";
+      return retorno;
     }
     
-    public boolean verificarValor(Receita receita, int valor)
+    }
+    
+    public boolean verificarValor(Receita receita, Double valor)
     {
         if(receita.getValor() > valor)                                          // Verificar se o valor depositado paga a bebida
         {
