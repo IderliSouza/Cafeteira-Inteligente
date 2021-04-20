@@ -54,6 +54,7 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         criarTecnicos();
         desabilitarBotoes();
         abrirRecursos();
+        listviewValor.add("Valor total depositado: "+ valorDepositado);
     }
 
     
@@ -66,6 +67,7 @@ public class InterfaceGrafica extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        list1 = new java.awt.List();
         expressoBotao = new javax.swing.JButton();
         cappuccinoBotao = new javax.swing.JButton();
         cafeComLeiteBotao = new javax.swing.JButton();
@@ -76,6 +78,7 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         moedaCampo = new javax.swing.JTextField();
         listview = new java.awt.List();
+        listviewValor = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,21 +177,23 @@ public class InterfaceGrafica extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cappuccinoBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(expressoBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cafeComLeiteBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chocolateQuenteBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(280, 280, 280)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(chocolateQuenteBotao)
+                            .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cafeComLeiteBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cappuccinoBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(copovazio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(listviewValor, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(expressoBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(37, 37, 37)
                         .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(loginTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -198,25 +203,25 @@ public class InterfaceGrafica extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginTecnico))
-                        .addGap(96, 96, 96)
-                        .addComponent(copovazio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(15, 15, 15))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(expressoBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cappuccinoBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
-                        .addComponent(cafeComLeiteBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cafeComLeiteBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
                         .addComponent(chocolateQuenteBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
                         .addComponent(jpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(27, 27, 27)
+                        .addComponent(listviewValor, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(listview, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(loginTecnico)))
+                .addGap(96, 96, 96)
+                .addComponent(copovazio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -243,12 +248,16 @@ public class InterfaceGrafica extends javax.swing.JFrame {
            case 5:
                
                Moeda moedaAtual = new Moeda("cinco", 5);
+               listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                for(int i=0;i<cafeteira.objCofre.moedasInternas.size();i++){
                    if(cafeteira.objCofre.moedasInternas.get(i).getMoeda().getValor()==moeda){
                        boolean status = cafeteira.contador.verificarMoeda(moedaAtual, cafeteira.objCofre.moedasInternas.get(i));
                        
                        if(status){
                            valorDepositado +=moeda;
+                           listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                            this.mensagens.mensagemTela("Moeda inserida");
                        }else{
                            this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
@@ -268,6 +277,8 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                        
                        if(status){
                            valorDepositado +=moeda;
+                           listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                             this.mensagens.mensagemTela("Moeda inserida");
                        }else{
                            this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
@@ -289,6 +300,8 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                        
                        if(status){
                            valorDepositado +=moeda;
+                           listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                            this.mensagens.mensagemTela("Moeda inserida");
                        }else{
                            this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
@@ -308,6 +321,8 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                        
                        if(status){
                            valorDepositado +=moeda;
+                           listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                            this.mensagens.mensagemTela("Moeda inserida");
                        }else{
                            this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
@@ -328,6 +343,8 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                        
                        if(status){
                            valorDepositado +=moeda;
+                           listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                            this.mensagens.mensagemTela("Moeda inserida");
                        }else{
                            this.mensagens.mensagemTela("Nao foi possivel inserir sua moeda."
@@ -411,12 +428,15 @@ public class InterfaceGrafica extends javax.swing.JFrame {
             String item = converterItemSelecionado();
             System.out.println(itemConvertivo);
             if(troco[1].equalsIgnoreCase("true")){
+                
                 this.valorDepositado = 0;
-                System.out.println("ESSE E O ITEM" + item);
+                listviewValor.clear();
+                listviewValor.add("Valor total depositado: "+ valorDepositado);
                 cafeteira.prepararBebida(item, converterAcucar());
                 
                 
                 try {
+                    listview.clear();
                     abrirRecursos();
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(InterfaceGrafica.class.getName()).log(Level.SEVERE, null, ex);
@@ -562,7 +582,9 @@ public class InterfaceGrafica extends javax.swing.JFrame {
     private javax.swing.JButton expressoBotao;
     private javax.swing.JButton jButton5;
     private javax.swing.JPanel jpanel;
+    private java.awt.List list1;
     private java.awt.List listview;
+    private java.awt.List listviewValor;
     private javax.swing.JButton loginTecnico;
     private javax.swing.JTextField moedaCampo;
     // End of variables declaration//GEN-END:variables

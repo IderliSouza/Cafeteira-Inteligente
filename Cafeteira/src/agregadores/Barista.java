@@ -17,7 +17,7 @@ public class Barista {
     
     public Barista(LivroReceitas livroReceitas, Dispensa dispensa )
     {
-        this.setStatus(-1);
+        
         this.menuBarista = livroReceitas;
         this.dispensa = dispensa;
     }
