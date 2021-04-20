@@ -47,4 +47,14 @@ public class Cofre {
         }
         return null;
     }
+    
+    public ArrayList<Moeda> getMoedasSistema() {
+        ArrayList<Moeda> tipoMoedas = new ArrayList<>();
+        
+        for(int i = 0; i < moedasInternas.size(); i++)
+        {
+            tipoMoedas.add(moedasInternas.get(i).getMoeda());
+        }
+        return tipoMoedas;
+    }
 }
